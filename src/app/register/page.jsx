@@ -1,12 +1,26 @@
 "use client";
 
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+
 import { useState } from "react";
 import { auth, firestore } from "../../lib/firebase";
+import Swal from "sweetalert2";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const showAlert = () => {
+    Swal.fire({
+      title: "Error!",
+      text: "Do you want to continue",
+      icon: "success",
+      confirmButtonText: "Cool",
+    });
+  };
 
   const handleRegister = async () => {
     try {
@@ -20,10 +34,13 @@ export default function RegisterPage() {
         email,
         selectedCandidate: null,
       });
-      alert("Registration successful!");
+      toast.success("Registrasi berhasil!");
     } catch (error) {
       console.error("Error registering:", error);
-      alert("Error registering: " + error.message);
+      toast.error("Registrasi gagal!");
+      setTimeout(() => {
+        toast.error(error.message);
+      }, 1000);
     }
   };
 

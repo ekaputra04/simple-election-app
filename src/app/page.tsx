@@ -16,10 +16,7 @@ export default function Home() {
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}
-      >
-        {" "}
-        Testing
-      </div>
+      ></div>
     </>
   );
 }
