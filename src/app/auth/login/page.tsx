@@ -1,27 +1,30 @@
+// /app/auth/login.page.tsx
+
 "use client";
 
 import { toast } from "sonner";
 import { useState, ChangeEvent } from "react";
-// import { auth } from "../../../lib/firebase";
+import { auth } from "../../../lib/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
-import { getFirestore } from "firebase/firestore";
-
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-
-// inisialisasi aplikasi firebase
-const auth = getAuth();
-const firestore = getFirestore();
+import { useAuthMiddleware } from "../../auth/middleware/authMiddleware";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { user, loading } = useAuthMiddleware();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (user) {
+    // Jika pengguna sudah login, arahkan ke halaman utama atau dashboard
+    return null;
+  }
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -58,7 +61,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Login</title>
+        <title>Simple Election App</title>
       </Head>
 
       <div className="flex justify-center items-center bg-primary w-full h-[100vh]">

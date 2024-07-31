@@ -9,7 +9,7 @@ export const useAuthMiddleware = () => {
 
   useEffect(() => {
     if (!loading && user) {
-      router.push("/dashboard"); // Ganti dengan rute yang sesuai
+      router.push("/"); // Ganti dengan rute yang sesuai
     }
   }, [user, loading, router]);
 

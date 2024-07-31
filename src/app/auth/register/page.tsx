@@ -2,29 +2,31 @@
 
 import { toast } from "sonner";
 import { useState, ChangeEvent } from "react";
-// import { auth, firestore } from "../../../lib/firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { useAuthMiddleware } from "../middleware/authMiddleware";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-// inisialisasi aplikasi firebase
 const auth = getAuth();
 const firestore = getFirestore();
-
-/**
- * RegisterPage component is responsible for handling the registration process of a new user.
- *
- * @return {JSX.Element} The JSX element containing the registration form.
- */
 
 export default function RegisterPage() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { user, loading } = useAuthMiddleware();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (user) {
+    // Jika pengguna sudah login, arahkan ke halaman utama atau dashboard
+    return null;
+  }
 
   const handleRegister = async () => {
     if (password.length < 6) {
