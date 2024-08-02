@@ -1,5 +1,3 @@
-// /app/auth/login.page.tsx
-
 "use client";
 
 import { toast } from "sonner";
@@ -10,15 +8,21 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
 import { useAuthMiddleware } from "../../auth/middleware/authMiddleware";
+import Loader from "@/components/Loader";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user, loading } = useAuthMiddleware();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loader loading={loading} />
+      </div>
+    );
   }
 
   if (user) {
@@ -37,6 +41,7 @@ export default function LoginPage() {
       return;
     }
 
+    setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Login successful!");
@@ -46,9 +51,8 @@ export default function LoginPage() {
     } catch (error: any) {
       console.error("Error logging in:", error);
       toast.error("Login failed!");
-      setTimeout(() => {
-        toast.error(error.message);
-      }, 1000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,6 +67,8 @@ export default function LoginPage() {
       <Head>
         <title>Simple Election App</title>
       </Head>
+
+      <Loader loading={isLoading} />
 
       <div className="flex justify-center items-center bg-primary w-full h-[100vh]">
         <div className="flex flex-col border-white/30 shadow-sm/50 shadow-white p-8 border rounded-md md:w-1/2 lg:w-1/3">
@@ -97,6 +103,7 @@ export default function LoginPage() {
           <button
             className="bg-white mt-8 py-2 rounded-sm font-bold text-primary poppins-semibold"
             onClick={handleLogin}
+            disabled={isLoading}
           >
             Submit
           </button>
