@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
 import { useAuthMiddleware } from "../middleware/authMiddleware";
+import Loader from "@/components/Loader";
 
 const auth = getAuth();
 const firestore = getFirestore();
@@ -17,10 +18,11 @@ export default function RegisterPage() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user, loading } = useAuthMiddleware();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader loading={loading} />;
   }
 
   if (user) {
@@ -39,6 +41,7 @@ export default function RegisterPage() {
       return;
     }
 
+    setIsLoading(true);
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -61,6 +64,8 @@ export default function RegisterPage() {
       setTimeout(() => {
         toast.error(error.message);
       }, 1000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -75,6 +80,8 @@ export default function RegisterPage() {
       <Head>
         <title>Login</title>
       </Head>
+
+      <Loader loading={isLoading} />
 
       <div className="flex justify-center items-center bg-primary w-full h-[100vh]">
         <div className="flex flex-col border-white/30 shadow-sm/50 shadow-white p-8 border rounded-md md:w-1/2 lg:w-1/3">

@@ -18,11 +18,7 @@ export default function LoginPage() {
   const { user, loading } = useAuthMiddleware();
 
   if (loading) {
-    return (
-      <div>
-        <Loader loading={loading} />
-      </div>
-    );
+    return <Loader loading={loading} />;
   }
 
   if (user) {
