@@ -1,30 +1,51 @@
+"use client";
 import Image from "next/image";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface CandidateCardProps {
+  id: string;
   name: string;
-  vision: string;
-  imageUrl: string;
+  description: string;
+  photoUrl: string;
 }
 
 const CandidateCard: React.FC<CandidateCardProps> = ({
+  id,
   name,
-  vision,
-  imageUrl,
+  description,
+  photoUrl,
 }) => {
+  // Debugging untuk cek nilai photoUrl
+  console.log("photoUrl received by CandidateCard:", photoUrl);
+
+  // Berikan nilai default jika photoUrl kosong atau tidak valid
+  const validphotoUrl =
+    photoUrl && photoUrl.trim() !== "" ? photoUrl : "/images/candidate.png";
+
+  // Debugging untuk memastikan validphotoUrl tidak kosong
+  console.log("Final photoUrl used by Image component:", validphotoUrl);
+
   return (
-    <div className="border-spacing-1 border-white/50 bg-primary shadow-md border rounded-lg w-80 overflow-hidden">
+    <Card className="shadow-lg overflow-hidden">
       <Image
-        src={imageUrl}
+        src={validphotoUrl}
         alt={name}
         width={320}
         height={180}
         className="w-full h-48 object-cover"
       />
-      <div className="p-4">
-        <h2 className="mb-2 font-semibold text-white text-xl">{name}</h2>
-        <p className="text-gray-600">{vision}</p>
-      </div>
-    </div>
+      <CardHeader>
+        <CardTitle className="font-semibold text-xl">{name}</CardTitle>
+        <CardDescription className="text-gray-600 text-sm">
+          {description}
+        </CardDescription>
+      </CardHeader>
+    </Card>
   );
 };
 

@@ -8,7 +8,7 @@ export default function AboutPage() {
         <h3 className="bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500 mb-4 font-extrabold text-3xl text-transparent lg:text-4xl">
           About the Election
         </h3>
-        <p className="mb-8 font-extralight text-md text-white/70 lg:text-xl">
+        <p className="mb-8 font-normal text-gray-600 text-md lg:text-xl dark:text-white/70">
           Join us in making a difference! This app allows you to participate in
           the election and vote for the best candidate. Your vote matters, and
           together we can shape the future!

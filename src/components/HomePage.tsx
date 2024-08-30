@@ -2,6 +2,7 @@ import Image from "next/image";
 import Candidate from "./types/CandidateType";
 import CandidateCard from "./CandidateCard";
 import Link from "next/link";
+import CandidatesList from "./CandidateList";
 
 export default function HomePage() {
   const candidates: Candidate[] = [
@@ -56,9 +57,11 @@ export default function HomePage() {
 
       {/* Profil Calon Pemimpin */}
       <section className="mt-12">
-        <h3 className="mb-4 font-bold text-2xl">Candidates</h3>
+        <h3 className="mb-4 font-bold text-2xl bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500 text-transparent">
+          Candidates
+        </h3>
         {/* Contoh profil kandidat */}
-        <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-1">
+        {/* <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-1">
           {candidates.map((candidate) => (
             <CandidateCard
               key={candidate.id}
@@ -67,7 +70,8 @@ export default function HomePage() {
               imageUrl={candidate.imageUrl}
             />
           ))}
-        </div>
+        </div> */}
+        <CandidatesList />
       </section>
 
       {/* Statistik Pemilihan */}

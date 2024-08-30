@@ -37,7 +37,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="z-50 fixed flex justify-between items-center backdrop-blur-sm mx-auto px-8 md:px-48 py-4 w-full glas">
+    <header className="z-50 fixed flex justify-between items-center backdrop-blur-sm mx-auto px-8 md:px-32 lg:px-48 py-4 md:py-1 w-full">
       <h1 className="font-bold text-lg">
         <Link
           href={"/"}
@@ -47,17 +47,11 @@ export default function Navbar() {
         </Link>
       </h1>
 
-      <div className="md:hidden">
-        <button onClick={toggleSidebar} className="text-2xl">
-          {isOpen ? <AiOutlineClose /> : <BsList />} {/* Toggle icon */}
-        </button>
-      </div>
-
       {/* Sidebar */}
       <nav
-        className={`fixed top-16 right-0 bg-white dark:bg-black shadow-lg transition-transform transform  ${
+        className={`fixed top-16 right-0 md:top-0 md:items-center bg-white md:relative md:dark:bg-transparent dark:bg-black  shadow-lg transition-transform transform w-64 md:flex md:bg-transparent md:translate-x-0 md:shadow-none  ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } w-64 md:relative md:flex md:items-center md:bg-transparent md:translate-x-0 md:shadow-none`}
+        }`}
       >
         <ul className="flex md:flex-row flex-col md:items-center gap-6 p-4 w-full">
           <li>
@@ -95,12 +89,12 @@ export default function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <a
-                href="/auth/login"
-                className="block px-3 py-2 hover:rounded-md text-sm transition-all"
+              <Link
+                href={"/auth/login"}
+                className="block hover:bg-primary/5 px-3 py-2 hover:rounded-md text-sm transition-all"
               >
                 Login
-              </a>
+              </Link>
             )}
           </li>
           <li>
@@ -108,6 +102,12 @@ export default function Navbar() {
           </li>
         </ul>
       </nav>
+
+      <div className="md:hidden">
+        <button onClick={toggleSidebar} className="text-2xl">
+          {isOpen ? <AiOutlineClose /> : <BsList />}
+        </button>
+      </div>
     </header>
   );
 }
