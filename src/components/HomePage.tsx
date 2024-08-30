@@ -28,7 +28,7 @@ export default function HomePage() {
   return (
     <main className="mx-auto px-8 container md:px-32 lg:px-48">
       {/* Hero Section */}
-      <section className="rounded-lg md:grid md:grid-cols-2 h-[100vh] pt-64  flex flex-col">
+      <section className="rounded-lg md:grid md:grid-cols-2 h-[100vh] flex flex-col pt-24">
         <div className="flex items-center">
           <div>
             <h2 className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
