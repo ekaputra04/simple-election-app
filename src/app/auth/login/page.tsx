@@ -9,6 +9,16 @@ import { useRouter } from "next/navigation";
 import Head from "next/head";
 import { useAuthMiddleware } from "../../auth/middleware/authMiddleware";
 import Loader from "@/components/Loader";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import RetroGrid from "@/components/magicui/retro-grid";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -60,14 +70,57 @@ export default function LoginPage() {
 
   return (
     <>
-      <Head>
-        <title>Simple Election App</title>
-      </Head>
-
       <Loader loading={isLoading} />
+      <div className="flex justify-center items-center bg-white dark:bg-primary dark:bg-slate-950 w-full h-[100vh]">
+        <RetroGrid />
+        <Card>
+          <CardHeader>
+            <CardTitle>Login</CardTitle>
+            <CardDescription>
+              <p className="[&:not(:first-child)]:mt-4 py-3 text-sm poppins-regular">
+                Enter your email below to login
+              </p>
+              <div className="items-center gap-2 grid pt-3 w-full max-w-sm">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  type="email"
+                  id="email"
+                  placeholder="Email"
+                  required
+                  onChange={handleInputChange(setEmail)}
+                  value={email}
+                />
+              </div>
+              <div className="items-center gap-2 grid mt-4 w-full max-w-sm">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  type="password"
+                  id="password"
+                  placeholder="Password"
+                  required
+                  onChange={handleInputChange(setPassword)}
+                  value={password}
+                />
+              </div>
 
-      <div className="flex justify-center items-center bg-primary w-full h-[100vh]">
-        <div className="flex flex-col border-white/30 shadow-sm/50 shadow-white p-8 border rounded-md md:w-1/2 lg:w-1/3">
+              <Button
+                className="mt-6 w-full text-white dark:text-slate-950"
+                onClick={handleLogin}
+                disabled={isLoading}
+              >
+                Submit
+              </Button>
+              <p className="m-auto mt-6 text-sm">
+                Dont have an Account? Sign Up{" "}
+                <Link href={"/auth/register"} className="font-bold underline">
+                  Here
+                </Link>
+              </p>
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        {/* <div className="flex flex-col border-white/30 shadow-sm/50 shadow-white p-8 border rounded-md md:w-1/2 lg:w-1/3">
           <h4 className="scroll-m-20 text-white text-xl poppins-semibold">
             Login
           </h4>
@@ -110,7 +163,7 @@ export default function LoginPage() {
               Here
             </Link>
           </p>
-        </div>
+        </div> */}
       </div>
     </>
   );

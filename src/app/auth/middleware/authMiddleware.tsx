@@ -8,8 +8,20 @@ export const useAuthMiddleware = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && user) {
-      router.push("/"); // Ganti dengan rute yang sesuai
+    if (!loading) {
+      const currentPath =
+        typeof window !== "undefined" ? window.location.pathname : "";
+
+      // Arahkan pengguna berdasarkan autentikasi
+      if (user && currentPath === "/auth/login") {
+        router.push("/");
+      }
+      if (user && currentPath === "/auth/register") {
+        router.push("/");
+      }
+      if (!user && currentPath === "/") {
+        router.push("/");
+      }
     }
   }, [user, loading, router]);
 

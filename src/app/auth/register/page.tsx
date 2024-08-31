@@ -6,7 +6,6 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Head from "next/head";
 import { useAuthMiddleware } from "../middleware/authMiddleware";
 import Loader from "@/components/Loader";
 
@@ -26,7 +25,6 @@ export default function RegisterPage() {
   }
 
   if (user) {
-    // Jika pengguna sudah login, arahkan ke halaman utama atau dashboard
     return null;
   }
 
@@ -42,6 +40,7 @@ export default function RegisterPage() {
     }
 
     setIsLoading(true);
+
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -53,11 +52,10 @@ export default function RegisterPage() {
         name,
         email,
         selectedCandidate: null,
+        isAdmin: false,
       });
       toast.success("Registrasi berhasil!");
-      setTimeout(() => {
-        router.push("/auth/login");
-      }, 500);
+      router.push("/auth/login");
     } catch (error: any) {
       console.error("Error registering:", error);
       toast.error("Registrasi gagal!");
@@ -77,10 +75,6 @@ export default function RegisterPage() {
 
   return (
     <>
-      <Head>
-        <title>Login</title>
-      </Head>
-
       <Loader loading={isLoading} />
 
       <div className="flex justify-center items-center bg-primary w-full h-[100vh]">
@@ -110,7 +104,7 @@ export default function RegisterPage() {
             type="email"
             value={email}
             onChange={handleInputChange(setEmail)}
-            placeholder="eka@gmail.com"
+            placeholder="user@gmail.com"
             className="border-white/30 bg-primary mt-2 p-2 border rounded-sm text-sm text-white placeholder:text-white/30 poppins-regular"
           />
           <p className="[&:not(:first-child)]:mt-4 text-sm text-white poppins-regular">
