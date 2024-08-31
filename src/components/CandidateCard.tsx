@@ -20,15 +20,8 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
   description,
   photoUrl,
 }) => {
-  // Debugging untuk cek nilai photoUrl
-  console.log("photoUrl received by CandidateCard:", photoUrl);
-
-  // Berikan nilai default jika photoUrl kosong atau tidak valid
   const validphotoUrl =
     photoUrl && photoUrl.trim() !== "" ? photoUrl : "/images/candidate.png";
-
-  // Debugging untuk memastikan validphotoUrl tidak kosong
-  console.log("Final photoUrl used by Image component:", validphotoUrl);
 
   return (
     <Card className="shadow-lg overflow-hidden">
