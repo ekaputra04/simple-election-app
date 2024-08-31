@@ -18,6 +18,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useState, useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { toast } from "sonner";
 
 interface CandidateCardProps {
   id: string;
@@ -38,8 +43,56 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
   vision,
   mission,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasVoted, setHasVoted] = useState(false);
+  const auth = getAuth();
+
   const validphotoUrl =
     photoUrl && photoUrl.trim() !== "" ? photoUrl : "/images/candidate.png";
+
+  // Check if the user has already voted
+  useEffect(() => {
+    const checkUserVote = async () => {
+      const user = auth.currentUser;
+
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setHasVoted(userData.selectedCandidate !== null);
+        }
+      }
+    };
+
+    checkUserVote();
+  }, [auth.currentUser]);
+
+  const handleVote = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      toast.error("You need to be logged in to vote.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const userDocRef = doc(db, "users", user.uid);
+      await updateDoc(userDocRef, {
+        selectedCandidate: id,
+      });
+      setHasVoted(true);
+      toast.success(`You have voted for ${name}`);
+    } catch (error) {
+      toast.error("Failed to cast vote. Please try again.");
+      console.error("Error updating selectedCandidate:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -65,9 +118,16 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
             </CardDescription>
             {votingOption && (
               <>
-                <AlertDialogTrigger>
-                  <Button className="w-full text-white dark:text-slate-950">
-                    Choice Candidate
+                <AlertDialogTrigger disabled={isLoading || hasVoted}>
+                  <Button
+                    disabled={isLoading || hasVoted}
+                    className="w-full text-white dark:text-slate-950"
+                  >
+                    {isLoading
+                      ? "Processing..."
+                      : hasVoted
+                      ? "Already Voted"
+                      : "Choose Candidate"}
                   </Button>
                 </AlertDialogTrigger>
               </>
@@ -79,13 +139,17 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              This action cannot be undone. You will select {name} as your
+              candidate.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="text-white dark:text-slate-950">
+            <AlertDialogAction
+              onClick={handleVote}
+              className="text-white dark:text-slate-950"
+              disabled={isLoading || hasVoted}
+            >
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

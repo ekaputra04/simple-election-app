@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export default function VoteLayout({
     <>
       <Navbar />
       <main className="">{children}</main>
+      <Toaster position="top-center" />
     </>
   );
 }
