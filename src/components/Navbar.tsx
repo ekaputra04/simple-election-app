@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BsList } from "react-icons/bs";
-import { AiOutlineClose } from "react-icons/ai"; // Import icon untuk close
+import { AiOutlineClose } from "react-icons/ai";
 
 import { ModeToggle } from "./ThemeToggle";
 import Link from "next/link";
@@ -21,19 +21,19 @@ import { useState } from "react";
 export default function Navbar() {
   const user = useAuth();
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false); // State untuk mengatur sidebar
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
-      router.push("/auth/login");
+      router.push("/");
     } catch (error) {
       console.error("Logout failed: ", error);
     }
   };
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen); // Toggle state ketika tombol diklik
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -49,7 +49,7 @@ export default function Navbar() {
 
       {/* Sidebar */}
       <nav
-        className={`fixed top-16 right-0 md:top-0 md:items-center bg-white md:relative md:dark:bg-transparent dark:bg-black  shadow-lg transition-transform transform w-64 md:flex md:bg-transparent md:translate-x-0 md:shadow-none  ${
+        className={`fixed top-16 right-0 md:top-0 md:items-center bg-white md:relative md:dark:bg-transparent dark:bg-slate-950  shadow-lg transition-transform transform w-64 md:flex md:bg-transparent md:translate-x-0 md:shadow-none  ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

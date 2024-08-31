@@ -68,14 +68,14 @@ export default function HomePage() {
         <VelocityScroll
           text="Choice your candidate!"
           default_velocity={1}
-          className="font-display text-center text-xl font-bold tracking-[-0.02em] bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent md:text-3xl md:leading-[3rem] opacity-30"
+          className="font-display text-center text-xl font-bold tracking-[-0.02em] bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent md:text-3xl md:leading-[3rem] opacity-30 "
         />
       </section>
 
       {/* Profil Calon Pemimpin */}
       <section className="lg:mt-32">
         <TypingAnimation
-          className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start"
+          className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start pt-16"
           text="Candidates"
         />
         <CandidatesList />
@@ -84,7 +84,7 @@ export default function HomePage() {
       {/* Statistik Pemilihan */}
       <section className="lg:mt-32 pb-32">
         <TypingAnimation
-          className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start"
+          className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start pt-16"
           text="Election Statistics"
         />
         <div className="gap-6 grid grid-cols-1 md:grid-cols-3">

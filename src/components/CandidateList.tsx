@@ -10,11 +10,18 @@ interface Candidate {
   name: string;
   description: string;
   photoURL: string;
+  vision: string;
+  mission: string;
 }
 
-const CandidatesList = () => {
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
+interface CandidateListProps {
+  votingOption: boolean;
+}
 
+const CandidatesList: React.FC<CandidateListProps> = ({
+  votingOption = false,
+}) => {
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,12 +33,15 @@ const CandidatesList = () => {
           id: doc.id,
           name: data.name || "No Name Provided",
           description: data.description || "No Description Provided",
+          vision: data.vision || "No Vision Provided",
+          mission: data.mission || "No Mission Provided",
           photoURL:
             typeof data.photoURL === "string"
               ? data.photoURL
               : "/images/candidate.png",
         };
       }) as Candidate[];
+      console.log(candidatesData);
 
       setCandidates(candidatesData);
       setLoading(false);
@@ -53,6 +63,9 @@ const CandidatesList = () => {
           name={candidate.name}
           description={candidate.description}
           photoUrl={candidate.photoURL}
+          vision={candidate.vision}
+          mission={candidate.mission}
+          votingOption={votingOption}
         />
       ))}
     </div>
