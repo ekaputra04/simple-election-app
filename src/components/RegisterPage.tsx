@@ -17,7 +17,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useAuthMiddleware } from "@/app/auth/middleware/authMiddleware";
+import { useAuthMiddleware } from "@/app/auth/middleware/useAuthMiddleware";
 
 const auth = getAuth();
 const firestore = getFirestore();

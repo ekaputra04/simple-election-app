@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import RetroGrid from "@/components/magicui/retro-grid";
-import { useAuthMiddleware } from "@/app/auth/middleware/authMiddleware";
+import { useAuthMiddleware } from "@/app/auth/middleware/useAuthMiddleware";
 import { auth } from "@/lib/firebase";
 
 export default function LoginPage() {

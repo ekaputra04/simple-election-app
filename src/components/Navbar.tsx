@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/hooks/useAuth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +16,10 @@ import { AiOutlineClose } from "react-icons/ai";
 import { ModeToggle } from "./ThemeToggle";
 import Link from "next/link";
 import { useState } from "react";
+import { useAuthMiddleware } from "@/app/auth/middleware/useAuthMiddleware";
 
 export default function Navbar() {
-  const user = useAuth();
+  const { user, isAdmin } = useAuthMiddleware(); // Menggunakan useAuthMiddleware
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -83,6 +83,7 @@ export default function Navbar() {
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>Profile</DropdownMenuItem>
+                  {isAdmin && <DropdownMenuItem>Dashboard</DropdownMenuItem>}
                   <DropdownMenuItem onClick={handleLogout}>
                     Logout
                   </DropdownMenuItem>

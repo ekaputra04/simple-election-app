@@ -41,7 +41,6 @@ const CandidatesList: React.FC<CandidateListProps> = ({
               : "/images/candidate.png",
         };
       }) as Candidate[];
-      console.log(candidatesData);
 
       setCandidates(candidatesData);
       setLoading(false);

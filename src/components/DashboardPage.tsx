@@ -3,6 +3,7 @@ import { useState } from "react";
 import { db, storage } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { useAuthMiddleware } from "@/app/auth/middleware/useAuthMiddleware";
 
 export default function DashboardPage() {
   const [name, setName] = useState("");
@@ -56,6 +57,14 @@ export default function DashboardPage() {
       setUploading(false);
     }
   };
+
+  // =================================
+
+  const { user, loading, isAdmin } = useAuthMiddleware();
+
+  if (loading) return <h1>Loading...</h1>; // Tampilkan spinner jika loading
+
+  if (!user || isAdmin === false) return null;
 
   return (
     <div>
