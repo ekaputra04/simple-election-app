@@ -8,7 +8,7 @@ export default function AboutPage() {
       <div className="left-0 -z-30 fixed flex flex-col justify-center items-center w-full h-[100vh] overflow-hidden">
         <RetroGrid />
       </div>
-      <section className="px-8 py-24">
+      <section className="px-8 lg:px-48 py-24">
         <div className="text-center">
           <h3 className="bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500 mb-4 font-extrabold text-3xl text-transparent lg:text-4xl">
             About the Election

@@ -70,7 +70,7 @@ export default function LoginPage() {
   return (
     <>
       <Loader loading={isLoading} />
-      <div className="flex justify-center items-center bg-white dark:bg-primary dark:bg-slate-950 w-full h-[100vh]">
+      <div className="flex justify-center items-center w-full h-[100vh]">
         <RetroGrid />
         <Card>
           <CardHeader>

@@ -83,7 +83,11 @@ export default function Navbar() {
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>Profile</DropdownMenuItem>
-                  {isAdmin && <DropdownMenuItem>Dashboard</DropdownMenuItem>}
+                  {isAdmin && (
+                    <DropdownMenuItem>
+                      <Link href={"/dashboard"}>Dashboard</Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={handleLogout}>
                     Logout
                   </DropdownMenuItem>

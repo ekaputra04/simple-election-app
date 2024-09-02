@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { db, storage } from "@/lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
@@ -6,10 +7,15 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useAuthMiddleware } from "@/app/auth/middleware/useAuthMiddleware";
 
 export default function DashboardPage() {
+  const { user, loading, isAdmin } = useAuthMiddleware();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  if (loading) return <h1>Loading...</h1>; // Tampilkan spinner jika loading
+
+  if (!user || isAdmin === false) return <h1>Access Denied</h1>; // Tampilkan pesan jika tidak memiliki akses
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -57,14 +63,6 @@ export default function DashboardPage() {
       setUploading(false);
     }
   };
-
-  // =================================
-
-  const { user, loading, isAdmin } = useAuthMiddleware();
-
-  if (loading) return <h1>Loading...</h1>; // Tampilkan spinner jika loading
-
-  if (!user || isAdmin === false) return null;
 
   return (
     <div>

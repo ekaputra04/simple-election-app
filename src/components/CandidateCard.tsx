@@ -97,7 +97,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
   return (
     <>
       <AlertDialog>
-        <Card className="shadow-lg overflow-hidden">
+        <Card className="bg-transparent shadow-2xl overflow-hidden">
           <Image
             src={validphotoUrl}
             alt={name}

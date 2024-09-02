@@ -12,13 +12,18 @@ export const useAuthMiddleware = () => {
   useEffect(() => {
     const checkAdminStatus = async () => {
       if (user && !loading) {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
+        try {
+          const userDocRef = doc(db, "users", user.uid);
+          const userDoc = await getDoc(userDocRef);
 
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setIsAdmin(userData.isAdmin || false);
-        } else {
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setIsAdmin(userData.isAdmin || false);
+          } else {
+            setIsAdmin(false);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
           setIsAdmin(false);
         }
       } else {
@@ -34,24 +39,13 @@ export const useAuthMiddleware = () => {
       const currentPath =
         typeof window !== "undefined" ? window.location.pathname : "";
 
-      // Redirect based on authentication and admin status
       if (user && currentPath === "/auth/login") {
         router.push("/");
-      }
-      if (user && currentPath === "/auth/register") {
+      } else if (user && currentPath === "/auth/register") {
         router.push("/");
-      }
-
-      if (
-        user &&
-        !loading &&
-        (isAdmin === false || isAdmin === null) &&
-        currentPath === "/dashboard"
-      ) {
+      } else if (user && isAdmin === false && currentPath === "/dashboard") {
         router.push("/");
-      }
-
-      if (!user && currentPath === "/dashboard") {
+      } else if (!user && currentPath === "/dashboard") {
         router.push("/");
       }
     }
