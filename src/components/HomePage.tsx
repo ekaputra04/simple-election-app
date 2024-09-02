@@ -78,7 +78,7 @@ export default function HomePage() {
           className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start pt-16"
           text="Candidates"
         />
-        <CandidatesList />
+        <CandidatesList votingOption={false} />
       </section>
 
       {/* Statistik Pemilihan */}
