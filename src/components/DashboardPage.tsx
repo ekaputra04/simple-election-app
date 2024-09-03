@@ -1,3 +1,5 @@
+"use client";
+
 import { PieChartComponent } from "./PieChart";
 
 import {

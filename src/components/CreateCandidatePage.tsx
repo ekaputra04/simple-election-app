@@ -18,6 +18,8 @@ import Link from "next/link";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CreateCandidatePage() {
   const { user, loading, isAdmin } = useAuthMiddleware();
@@ -27,6 +29,7 @@ export default function CreateCandidatePage() {
   const [mission, setMission] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const router = useRouter();
 
   if (loading) return <h1>Loading...</h1>; // Tampilkan spinner jika loading
 
@@ -57,7 +60,6 @@ export default function CreateCandidatePage() {
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-          // Tambahkan dokumen baru ke Firestore dengan ID yang di-generate secara otomatis
           const docRef = await addDoc(collection(db, "candidates"), {
             name,
             description,
@@ -68,18 +70,21 @@ export default function CreateCandidatePage() {
 
           console.log("Document written with ID: ", docRef.id);
 
-          // Reset state setelah berhasil menyimpan data
           setUploading(false);
           setName("");
           setDescription("");
           setVision("");
           setMission("");
           setFile(null);
+
+          toast.success("Create candidate successfully");
+          router.push("/dashboard/candidates");
         }
       );
     } catch (error) {
       console.error("Error saving candidate:", error);
       setUploading(false);
+      toast.error("Error saving candidate");
     }
   };
 

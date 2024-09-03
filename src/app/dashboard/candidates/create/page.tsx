@@ -1,5 +1,5 @@
-import DashboardPage from "@/components/CreateCandidatePage";
+import CreateCandidatePage from "@/components/CreateCandidatePage";
 
 export default function CreateCandidateRoute() {
-  return <DashboardPage />;
+  return <CreateCandidatePage />;
 }

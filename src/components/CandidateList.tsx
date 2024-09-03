@@ -1,18 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 import CandidateCard from "./CandidateCard";
-
-interface Candidate {
-  id: string;
-  name: string;
-  description: string;
-  photoURL: string;
-  vision: string;
-  mission: string;
-}
+import { fetchCandidates } from "@/lib/utils";
+import Candidate from "./types/CandidateType";
 
 interface CandidateListProps {
   votingOption: boolean;
@@ -25,28 +16,13 @@ const CandidatesList: React.FC<CandidateListProps> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCandidates = async () => {
-      const querySnapshot = await getDocs(collection(db, "candidates"));
-      const candidatesData = querySnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          name: data.name || "No Name Provided",
-          description: data.description || "No Description Provided",
-          vision: data.vision || "No Vision Provided",
-          mission: data.mission || "No Mission Provided",
-          photoURL:
-            typeof data.photoURL === "string"
-              ? data.photoURL
-              : "/images/candidate.png",
-        };
-      }) as Candidate[];
-
+    const fetchData = async () => {
+      const candidatesData = await fetchCandidates();
       setCandidates(candidatesData);
       setLoading(false);
     };
 
-    fetchCandidates();
+    fetchData();
   }, []);
 
   if (loading) {

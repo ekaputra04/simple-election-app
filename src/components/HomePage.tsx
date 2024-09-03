@@ -1,36 +1,12 @@
 import Image from "next/image";
-import Candidate from "./types/CandidateType";
-import CandidateCard from "./CandidateCard";
 import Link from "next/link";
 import CandidatesList from "./CandidateList";
 import TypingAnimation from "./magicui/typing-animation";
 import RetroGrid from "./magicui/retro-grid";
-import NumberTicker from "./magicui/number-ticker";
 import { VelocityScroll } from "./magicui/scroll-based-velocity";
 import StatisticCard from "./StatisticCard";
 
 export default function HomePage() {
-  const candidates: Candidate[] = [
-    {
-      id: "1",
-      name: "John Doe",
-      vision: "To lead with integrity and innovation.",
-      imageUrl: "/images/candidate.jpg",
-    },
-    {
-      id: "2",
-      name: "John Doe",
-      vision: "To lead with integrity and innovation.",
-      imageUrl: "/images/candidate.jpg",
-    },
-    {
-      id: "3",
-      name: "John Doe",
-      vision: "To lead with integrity and innovation.",
-      imageUrl: "/images/candidate.jpg",
-    },
-  ];
-
   return (
     <main className="mx-auto px-8 container md:px-32 lg:px-48 relative">
       {/* Hero Section */}
