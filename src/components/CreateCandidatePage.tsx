@@ -23,6 +23,8 @@ export default function CreateCandidatePage() {
   const { user, loading, isAdmin } = useAuthMiddleware();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [vision, setVision] = useState("");
+  const [mission, setMission] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -60,6 +62,8 @@ export default function CreateCandidatePage() {
             name,
             description,
             photoURL: downloadURL,
+            vision,
+            mission,
           });
 
           console.log("Document written with ID: ", docRef.id);
@@ -68,6 +72,8 @@ export default function CreateCandidatePage() {
           setUploading(false);
           setName("");
           setDescription("");
+          setVision("");
+          setMission("");
           setFile(null);
         }
       );
@@ -104,7 +110,13 @@ export default function CreateCandidatePage() {
 
       <div className="grid w-full max-w-sm items-center gap-1.5 mt-4">
         <Label htmlFor="name">Name</Label>
-        <Input type="name" id="name" placeholder="Name" />
+        <Input
+          type="text"
+          id="name"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
       </div>
 
       <div className="grid w-full gap-1.5 max-w-sm mt-4">
@@ -112,44 +124,43 @@ export default function CreateCandidatePage() {
         <Textarea
           placeholder="Type candidate's description here."
           id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
 
       <div className="grid w-full gap-1.5 max-w-sm mt-4">
         <Label htmlFor="vision">Vision</Label>
-        <Textarea placeholder="Type candidate's vision here." id="vision" />
+        <Textarea
+          placeholder="Type candidate's vision here."
+          id="vision"
+          value={vision}
+          onChange={(e) => setVision(e.target.value)}
+        />
       </div>
 
       <div className="grid w-full gap-1.5 max-w-sm mt-4">
         <Label htmlFor="mission">Mission</Label>
-        <Textarea placeholder="Type candidate's mission here." id="mission" />
+        <Textarea
+          placeholder="Type candidate's mission here."
+          id="mission"
+          value={mission}
+          onChange={(e) => setMission(e.target.value)}
+        />
       </div>
 
       <div className="grid w-full gap-1.5 max-w-sm mt-4">
         <Label htmlFor="picture">Picture</Label>
-        <Input id="picture" type="file" />
+        <Input id="picture" type="file" onChange={handleFileChange} />
       </div>
 
-      <Button className="text-white dark:text-slate-900">
-        Create Candidate
-      </Button>
-
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Candidate Name"
-      />
-
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Candidate Description"
-      ></textarea>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleSubmit} disabled={uploading}>
+      <Button
+        className="text-white dark:text-slate-900 mt-4"
+        onClick={handleSubmit}
+        disabled={uploading}
+      >
         {uploading ? "Uploading..." : "Submit"}
-      </button>
+      </Button>
     </div>
   );
 }
