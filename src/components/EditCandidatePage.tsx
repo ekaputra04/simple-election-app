@@ -2,9 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { db, storage } from "@/lib/firebase";
-import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  deleteObject,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useAuthMiddleware } from "@/app/auth/middleware/useAuthMiddleware";
+import { useParams, useRouter } from "next/navigation";
+import Candidate from "./types/CandidateType";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,9 +24,9 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner";
-import { useParams, useRouter } from "next/navigation";
-import Candidate from "./types/CandidateType";
 import Image from "next/image";
+import DotPattern from "./magicui/dot-pattern";
+import { cn } from "@/lib/utils";
 
 export default function EditCandidatePage() {
   const { user, loading, isAdmin } = useAuthMiddleware();
@@ -66,7 +73,17 @@ export default function EditCandidatePage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFile(e.target.files[0]);
+      const newFile = e.target.files[0];
+      setFile(newFile);
+
+      // Update the candidate state to show the new image immediately
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setCandidate(
+          (prev) => prev && { ...prev, photoURL: e.target?.result as string }
+        );
+      };
+      reader.readAsDataURL(newFile);
     }
   };
 
@@ -77,7 +94,13 @@ export default function EditCandidatePage() {
       let photoURL = candidate?.photoURL || "";
 
       if (file) {
-        // Upload new file to Firebase Storage if a new file is provided
+        // If there's an existing photoURL, delete the old file from storage
+        if (candidate?.photoURL && candidate.photoURL !== "") {
+          const oldPhotoRef = ref(storage, candidate.photoURL);
+          await deleteObject(oldPhotoRef);
+        }
+
+        // Upload new file to Firebase Storage
         const storageRef = ref(storage, `candidates/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -116,6 +139,11 @@ export default function EditCandidatePage() {
 
   return (
     <>
+      <DotPattern
+        className={cn(
+          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
+        )}
+      />
       <div className="">
         <div className="">
           <Breadcrumb>
@@ -187,7 +215,7 @@ export default function EditCandidatePage() {
               <Image
                 width={200}
                 height={100}
-                src={candidate?.photoURL}
+                src={candidate.photoURL}
                 alt={candidate?.name}
                 className="rounded-md"
               />

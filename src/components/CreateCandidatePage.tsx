@@ -20,6 +20,8 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import DotPattern from "./magicui/dot-pattern";
+import { cn } from "@/lib/utils";
 
 export default function CreateCandidatePage() {
   const { user, loading, isAdmin } = useAuthMiddleware();
@@ -90,6 +92,11 @@ export default function CreateCandidatePage() {
 
   return (
     <div>
+      <DotPattern
+        className={cn(
+          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
+        )}
+      />
       <div className="">
         <Breadcrumb>
           <BreadcrumbList>

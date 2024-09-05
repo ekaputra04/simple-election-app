@@ -2,6 +2,7 @@
 import Image from "next/image";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -23,6 +24,7 @@ import { getAuth } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { toast } from "sonner";
+import { SeparatorHorizontal } from "lucide-react";
 
 interface CandidateCardProps {
   id: string;
@@ -97,7 +99,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
   return (
     <>
       <AlertDialog>
-        <Card className="bg-transparent shadow-2xl overflow-hidden">
+        <Card className="bg-transparent shadow-lg overflow-hidden">
           <Image
             src={validphotoUrl}
             alt={name}
@@ -106,14 +108,18 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
             className="w-full h-48 object-cover"
           />
           <CardHeader>
-            <CardTitle className="font-semibold text-xl">{name}</CardTitle>
+            <CardTitle className="font-semibold text-lg">{name}</CardTitle>
             <CardDescription className="text-gray-600 text-sm">
               {description}
             </CardDescription>
+            <hr />
             <CardDescription className="text-gray-600 text-sm">
+              <div className="py-2 font-bold text-base">Vision :</div>
               {vision}
             </CardDescription>
             <CardDescription className="pb-4 text-gray-600 text-sm">
+              <div className="py-2 font-bold text-base">Mission :</div>
+
               {mission}
             </CardDescription>
             {votingOption && (

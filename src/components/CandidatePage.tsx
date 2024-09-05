@@ -21,7 +21,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useEffect, useState } from "react";
-import { fetchCandidates } from "@/lib/utils";
+import { cn, fetchCandidates } from "@/lib/utils";
 import Candidate from "./types/CandidateType";
 import { deleteDoc, doc } from "firebase/firestore";
 import { toast } from "sonner";
@@ -38,6 +38,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import DotPattern from "./magicui/dot-pattern";
 
 export function CandidatePage() {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -70,6 +71,11 @@ export function CandidatePage() {
 
   return (
     <>
+      <DotPattern
+        className={cn(
+          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
+        )}
+      />
       <AlertDialog>
         <AlertDialogContent>
           <AlertDialogHeader>

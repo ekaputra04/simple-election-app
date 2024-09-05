@@ -20,7 +20,7 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   isPercentage = false,
 }) => {
   return (
-    <Card className="bg-transparent shadow-2xl overflow-hidden">
+    <Card className="bg-transparent shadow-lg overflow-hidden">
       <CardHeader>
         <CardTitle className="mx-auto font-semibold text-xl">
           <NumberTicker value={number} />
