@@ -139,11 +139,6 @@ export default function EditCandidatePage() {
 
   return (
     <>
-      <DotPattern
-        className={cn(
-          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
-        )}
-      />
       <div className="">
         <div className="">
           <Breadcrumb>

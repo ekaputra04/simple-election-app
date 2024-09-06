@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
-import { Home, LineChart, Menu, Users } from "lucide-react";
+import { Home, LineChart, Menu, User, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next";
 import { ModeToggle } from "@/components/ThemeToggle";
 import { usePathname } from "next/navigation";
+import DotPattern from "@/components/magicui/dot-pattern";
+import { cn } from "@/lib/utils";
 
 export default function DashboardLayout({
   children,
@@ -17,6 +19,11 @@ export default function DashboardLayout({
 
   return (
     <>
+      <DotPattern
+        className={cn(
+          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
+        )}
+      />
       <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] w-full min-h-screen">
         <div className="md:block hidden bg-muted/40 border-r">
           <div className="flex flex-col gap-2 h-full max-h-screen">
@@ -52,15 +59,15 @@ export default function DashboardLayout({
                   Candidates
                 </Link>
                 <Link
-                  href="/dashboard/analytics"
+                  href="/dashboard/users"
                   className={`flex items-center gap-3 rounded-lg px-3 py-2 ${
-                    pathname === "/dashboard/analytics"
+                    pathname === "/dashboard/users"
                       ? "bg-muted text-primary"
                       : "text-muted-foreground"
                   }  transition-all hover:text-primary`}
                 >
-                  <LineChart className="w-4 h-4" />
-                  Analytics
+                  <User className="w-4 h-4" />
+                  Users
                 </Link>
               </nav>
             </div>
@@ -121,7 +128,6 @@ export default function DashboardLayout({
           </main>
         </div>
       </div>
-      <Toaster position="top-center" />
     </>
   );
 }

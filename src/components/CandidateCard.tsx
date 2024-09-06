@@ -50,7 +50,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
   const auth = getAuth();
 
   const validphotoUrl =
-    photoUrl && photoUrl.trim() !== "" ? photoUrl : "/images/candidate.png";
+    photoUrl && photoUrl.trim() !== "" ? photoUrl : "@/images/candidate.png";
 
   // Check if the user has already voted
   useEffect(() => {

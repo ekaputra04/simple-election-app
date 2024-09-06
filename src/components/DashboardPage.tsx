@@ -1,7 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import DotPattern from "./magicui/dot-pattern";
 import { PieChartComponent } from "./PieChart";
 
 import {
@@ -23,6 +21,7 @@ export function DashboardPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
+
       <PieChartComponent />
     </>
   );

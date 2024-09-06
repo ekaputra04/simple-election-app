@@ -14,14 +14,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "./ui/button";
-import Link from "next/link";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import DotPattern from "./magicui/dot-pattern";
-import { cn } from "@/lib/utils";
 
 export default function CreateCandidatePage() {
   const { user, loading, isAdmin } = useAuthMiddleware();
@@ -33,9 +30,9 @@ export default function CreateCandidatePage() {
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
 
-  if (loading) return <h1>Loading...</h1>; // Tampilkan spinner jika loading
+  if (loading) return <h1>Loading...</h1>;
 
-  if (!user || isAdmin === false) return <h1>Access Denied</h1>; // Tampilkan pesan jika tidak memiliki akses
+  if (!user || isAdmin === false) return <h1>Access Denied</h1>;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -92,11 +89,6 @@ export default function CreateCandidatePage() {
 
   return (
     <div>
-      <DotPattern
-        className={cn(
-          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
-        )}
-      />
       <div className="">
         <Breadcrumb>
           <BreadcrumbList>

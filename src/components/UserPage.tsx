@@ -1,5 +1,9 @@
 "use client";
 
+import { fetchUsers } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import User from "./types/UserType";
+
 import {
   Table,
   TableBody,
@@ -10,7 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
 import Link from "next/link";
 import {
   Breadcrumb,
@@ -20,13 +23,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useEffect, useState } from "react";
-import { fetchCandidates } from "@/lib/utils";
-import Candidate from "./types/CandidateType";
 import { deleteDoc, doc } from "firebase/firestore";
 import { toast } from "sonner";
 import { db } from "@/lib/firebase";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -39,38 +38,42 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
-export function CandidatePage() {
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
+export default function UserPage() {
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [id, setId] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
-      const candidatesData = await fetchCandidates();
-      setCandidates(candidatesData);
+      const usersData = await fetchUsers();
+      setUsers(usersData);
       setLoading(false);
     };
 
     fetchData();
   }, []);
 
-  const handleDeleteCandidate = async (id: string) => {
+  const handleDeleteUser = async (id: string) => {
     try {
       // Referensi ke dokumen kandidat yang ingin dihapus
-      const candidateRef = doc(db, "candidates", id);
+      const userRef = doc(db, "users", id);
 
       // Menghapus dokumen dari Firestore
-      await deleteDoc(candidateRef);
+      await deleteDoc(userRef);
 
-      toast.success("Candidate deleted successfully");
+      toast.success("User deleted successfully");
       router.refresh();
     } catch (error) {
-      console.error("Error deleting candidate:", error);
-      toast.error("Error deleting candidate");
+      console.error("Error deleting user:", error);
+      toast.error("Error deleting user");
     }
   };
+
+  console.log(users);
 
   return (
     <>
@@ -79,15 +82,15 @@ export function CandidatePage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
+              This action cannot be undone. This will permanently delete the
+              data from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                handleDeleteCandidate(id);
+                handleDeleteUser(id);
               }}
               className="text-white dark:text-slate-900"
             >
@@ -103,49 +106,50 @@ export function CandidatePage() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard/candidates">
-                  Candidates
-                </BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard/users">Users</BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
 
         <div className="flex justify-between items-center">
-          <h1 className="font-bold text-lg">Candidate List</h1>
-          <Link href={"/dashboard/candidates/create"}>
-            <Button className="text-white dark:text-slate-900">
-              Create Candidate
-            </Button>
-          </Link>
+          <h1 className="font-bold text-lg">Users List</h1>
         </div>
 
         {loading ? (
           <h1>Loading..</h1>
         ) : (
           <Table>
-            <TableCaption>A list of candidates</TableCaption>
+            <TableCaption>A list of users</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-auto">Name</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Vision</TableHead>
-                <TableHead>Mission</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>IsAdmin</TableHead>
+                <TableHead>Selected Candidate</TableHead>
                 <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {candidates.map((candidate) => (
-                <TableRow key={candidate.id}>
-                  <TableCell className="font-medium">
-                    {candidate.name}
+              {users.map((user) => (
+                <TableRow key={user.uid}>
+                  <TableCell className="font-medium">{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    {user.isAdmin ? (
+                      <>
+                        <Badge className="bg-green-700 text-white">Yes</Badge>
+                      </>
+                    ) : (
+                      <>
+                        <Badge className="bg-red-700 text-white">No</Badge>
+                      </>
+                    )}
                   </TableCell>
-                  <TableCell>{candidate.description}</TableCell>
-                  <TableCell>{candidate.vision}</TableCell>
-                  <TableCell>{candidate.mission}</TableCell>
+                  <TableCell>{user.selectedCandidate}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex flex-wrap justify-end gap-4">
-                      <Link href={`/dashboard/candidates/edit/${candidate.id}`}>
+                      <Link href={`/dashboard/users/edit/${user.uid}`}>
                         <Button className="bg-muted hover:text-white dark:hover:text-slate-900">
                           Edit
                         </Button>
@@ -155,7 +159,7 @@ export function CandidatePage() {
                         <Button
                           className="bg-red-500 btn hover:text-white dark:hover:text-slate-900"
                           onClick={() => {
-                            setId(candidate.id);
+                            setId(user.uid);
                           }}
                         >
                           Delete
@@ -169,9 +173,7 @@ export function CandidatePage() {
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={4}>Total</TableCell>
-                <TableCell className="text-right">
-                  {candidates.length}
-                </TableCell>
+                <TableCell className="text-right">{users.length}</TableCell>
               </TableRow>
             </TableFooter>
           </Table>

@@ -24,3 +24,17 @@ export const fetchCandidates = async () => {
     };
   });
 };
+
+export const fetchUsers = async () => {
+  const querySnapshot = await getDocs(collection(db, "users"));
+  return querySnapshot.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      uid: doc.id,
+      name: data.name || "null",
+      email: data.email || "null",
+      isAdmin: data.isAdmin || false,
+      selectedCandidate: data.selectedCandidate || "null",
+    };
+  });
+};

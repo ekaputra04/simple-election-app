@@ -139,8 +139,8 @@ export default function RegisterPage() {
                 Submit
               </Button>
               <p className="m-auto mt-6 text-sm">
-                Dont have an Account? Sign Up{" "}
-                <Link href={"/auth/register"} className="font-bold underline">
+                Have an Account? Sign In{" "}
+                <Link href={"/auth/login"} className="font-bold underline">
                   Here
                 </Link>
               </p>
