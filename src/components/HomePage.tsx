@@ -1,9 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import CandidatesList from "./CandidateList";
 import TypingAnimation from "./magicui/typing-animation";
-import RetroGrid from "./magicui/retro-grid";
-import { VelocityScroll } from "./magicui/scroll-based-velocity";
 import StatisticCard from "./StatisticCard";
 import {
   Accordion,
@@ -12,17 +12,38 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { MarqueeDemo } from "./MarqueeDemo";
-import Meteors from "./magicui/meteors";
+import TextRevealByWord from "./magicui/text-reveal";
+import { useEffect, useState } from "react";
+import getElectionStats from "@/lib/utils";
 
 export default function HomePage() {
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<{
+    totalVoters: number;
+    totalCandidates: number;
+    voterTurnout: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const data = await getElectionStats();
+        setStats(data);
+      } catch (error) {
+        console.error("Failed to fetch election stats", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   return (
     <>
       <main className="mx-auto px-8 container md:px-32 lg:px-48 relative">
         {/* Hero Section */}
-        <div className="fixed left-0 -z-30 flex h-[100vh] w-full flex-col items-center justify-center overflow-hidden ">
-          <Meteors number={30} />
-          <RetroGrid />
-        </div>
+
         <section className="rounded-lg md:grid md:grid-cols-2 h-[100vh] flex flex-col pt-24">
           <div className="flex items-center">
             <div>
@@ -51,6 +72,10 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent ">
+          <TextRevealByWord text="Welcome to our Election App, where the power of choice is in your hands. This platform allows you to participate in a transparent and secure voting process, ensuring that every vote counts and every voice is heard." />
+        </section>
+
         <section className="lg:mt-32">
           <TypingAnimation
             className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start pt-16"
@@ -65,10 +90,16 @@ export default function HomePage() {
             text="Election Statistics"
           />
           <div className="gap-6 grid grid-cols-1 md:grid-cols-3">
-            <StatisticCard number={100} description="Total Voters" />
-            <StatisticCard number={5} description="Candidate" />
             <StatisticCard
-              number={75}
+              number={stats?.totalVoters || 0}
+              description="Total Voters"
+            />
+            <StatisticCard
+              number={stats?.totalCandidates || 0}
+              description="Candidate"
+            />
+            <StatisticCard
+              number={stats?.voterTurnout || 0}
               description="Voter Turnout"
               isPercentage={true}
             />
@@ -128,6 +159,8 @@ export default function HomePage() {
         <section>
           <MarqueeDemo />
         </section>
+
+        <section></section>
       </main>
     </>
   );

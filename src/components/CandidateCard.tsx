@@ -99,7 +99,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
   return (
     <>
       <AlertDialog>
-        <Card className="bg-transparent shadow-lg overflow-hidden">
+        <Card className="bg-transparent shadow-lg dark:text-white/70 overflow-hidden">
           <Image
             src={validphotoUrl}
             alt={name}
@@ -109,15 +109,15 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
           />
           <CardHeader>
             <CardTitle className="font-semibold text-lg">{name}</CardTitle>
-            <CardDescription className="text-gray-600 text-sm">
+            <CardDescription className="text-gray-600 text-sm dark:text-white/70">
               {description}
             </CardDescription>
             <hr />
-            <CardDescription className="text-gray-600 text-sm">
+            <CardDescription className="text-gray-600 text-sm dark:text-white/70">
               <div className="py-2 font-bold text-base">Vision :</div>
               {vision}
             </CardDescription>
-            <CardDescription className="pb-4 text-gray-600 text-sm">
+            <CardDescription className="pb-4 text-gray-600 text-sm dark:text-white/70">
               <div className="py-2 font-bold text-base">Mission :</div>
 
               {mission}

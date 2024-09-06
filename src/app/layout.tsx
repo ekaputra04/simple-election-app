@@ -5,6 +5,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import DotPattern from "@/components/magicui/dot-pattern";
 import { cn } from "@/lib/utils";
+import Meteors from "@/components/magicui/meteors";
+import RetroGrid from "@/components/magicui/retro-grid";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +29,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <div className="left-0 -z-30 fixed flex flex-col justify-center items-center w-full h-[100vh] overflow-hidden">
+            <Meteors number={30} />
+            <RetroGrid />
+          </div>
           {children}
         </ThemeProvider>
         <Toaster position="top-center" />
