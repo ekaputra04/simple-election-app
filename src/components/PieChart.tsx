@@ -1,8 +1,7 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { Label, Pie, PieChart, Sector } from "recharts";
-import { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { Label, Pie, PieChart, Sector, Tooltip } from "recharts";
 
 import {
   Card,
@@ -12,91 +11,106 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 
-export const description = "A donut chart with an active sector";
-
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
+const CHART_COLORS = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
 ];
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig;
+type VotingData = {
+  voted: number; // Jumlah user yang telah melakukan voting
+  notVoted: number; // Jumlah user yang belum melakukan voting
+};
 
-export function PieChartComponent() {
+type Candidate = {
+  name: string; // Nama kandidat
+  votes: number; // Jumlah suara yang diperoleh kandidat
+};
+
+type CandidateData = Candidate[];
+
+export function VotingStatusPieChart({
+  votingData,
+}: {
+  votingData: VotingData;
+}) {
+  const chartConfig = {
+    voted: {
+      label: "Voted",
+      color: "hsl(var(--chart-1))",
+    },
+    notVoted: {
+      label: "Not Voted",
+      color: "hsl(var(--chart-2))",
+    },
+  };
+
+  const data = [
+    { name: "Voted", value: votingData.voted, fill: chartConfig.voted.color },
+    {
+      name: "Not Voted",
+      value: votingData.notVoted,
+      fill: chartConfig.notVoted.color,
+    },
+  ];
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut Active</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Voting Status</CardTitle>
+        <CardDescription>User Voting Status</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto max-h-[250px] aspect-square"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={60}
-              strokeWidth={5}
-              activeIndex={0}
-              activeShape={({
-                outerRadius = 0,
-                ...props
-              }: PieSectorDataItem) => (
-                <Sector {...props} outerRadius={outerRadius + 10} />
-              )}
-            />
-          </PieChart>
-        </ChartContainer>
+      <CardContent className="flex justify-center">
+        <PieChart width={300} height={300}>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            innerRadius={60}
+            outerRadius={80}
+            fill="#82ca9d"
+            label={({ name, value }) => `${name}: ${value}`}
+          />
+          <Tooltip />
+        </PieChart>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="w-4 h-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
+    </Card>
+  );
+}
+
+export function CandidateVotesPieChart({
+  candidateData,
+}: {
+  candidateData: CandidateData;
+}) {
+  const data = candidateData.map((candidate: Candidate) => ({
+    name: candidate.name,
+    value: candidate.votes,
+  }));
+
+  return (
+    <Card className="flex flex-col">
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Candidate Votes</CardTitle>
+        <CardDescription>Votes Distribution by Candidate</CardDescription>
+      </CardHeader>
+      <CardContent className="flex justify-center">
+        <PieChart width={300} height={300}>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            innerRadius={60}
+            outerRadius={80}
+            fill="#8884d8"
+            label={({ name, value }) => `${name}: ${value}`}
+          />
+          <Tooltip />
+        </PieChart>
+      </CardContent>
     </Card>
   );
 }

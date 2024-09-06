@@ -23,7 +23,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "sonner";
 import { db } from "@/lib/firebase";
 import {
@@ -50,7 +50,26 @@ export default function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       const usersData = await fetchUsers();
-      setUsers(usersData);
+
+      // Fetch nama kandidat untuk setiap user
+      const usersWithCandidateNames = await Promise.all(
+        usersData.map(async (user) => {
+          if (user.selectedCandidate) {
+            const candidateDoc = await getDoc(
+              doc(db, "candidates", user.selectedCandidate)
+            );
+            if (candidateDoc.exists()) {
+              return {
+                ...user,
+                selectedCandidate: candidateDoc.data().name,
+              };
+            }
+          }
+          return { ...user, selectedCandidate: "Unknown Candidate" };
+        })
+      );
+
+      setUsers(usersWithCandidateNames);
       setLoading(false);
     };
 
@@ -59,10 +78,7 @@ export default function UserPage() {
 
   const handleDeleteUser = async (id: string) => {
     try {
-      // Referensi ke dokumen kandidat yang ingin dihapus
       const userRef = doc(db, "users", id);
-
-      // Menghapus dokumen dari Firestore
       await deleteDoc(userRef);
 
       toast.success("User deleted successfully");
@@ -72,8 +88,6 @@ export default function UserPage() {
       toast.error("Error deleting user");
     }
   };
-
-  console.log(users);
 
   return (
     <>
