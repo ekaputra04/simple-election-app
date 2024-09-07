@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "/v0/b/**", // Path yang lebih spesifik sesuai dengan pola URL Firebase Storage
       },
+      // {
+      //   protocol: "https",
+      //   hostname: "plus.unsplash.com",
+      //   port: "",
+      //   pathname: "/**", // Path yang lebih spesifik sesuai dengan pola URL Firebase Storage
+      // },
     ],
   },
 };

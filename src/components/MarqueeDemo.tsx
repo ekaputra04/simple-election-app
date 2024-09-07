@@ -7,37 +7,37 @@ const reviews = [
     name: "Alex",
     username: "@alex_votes",
     body: "The user interface is incredibly intuitive. I was able to cast my vote in seconds, and the candidate profiles were clear and informative.",
-    img: "https://avatar.vercel.sh/alex",
+    img: "https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Sara",
     username: "@sara_elections",
     body: "I appreciate the security measures in place. Knowing my vote is safe and anonymous gives me peace of mind.",
-    img: "https://avatar.vercel.sh/sara",
+    img: "https://images.unsplash.com/photo-1502323777036-f29e3972d82f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Michael",
     username: "@mike_choice",
     body: "The ability to see detailed candidate information before voting made my decision-making process so much easier.",
-    img: "https://avatar.vercel.sh/michael",
+    img: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Emily",
     username: "@emily_cast",
     body: "This app makes voting straightforward and stress-free. The design is clean, and everything works smoothly.",
-    img: "https://avatar.vercel.sh/emily",
+    img: "https://images.unsplash.com/photo-1517630800677-932d836ab680?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "David",
     username: "@david_picks",
     body: "I love how this app has streamlined the election process. No more confusion or hassle. Just a few clicks, and I'm done.",
-    img: "https://avatar.vercel.sh/david",
+    img: "https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?q=80&w=1930&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Olivia",
     username: "@olivia_votes",
     body: "A revolutionary tool for elections. It's great to see technology making such a positive impact in the voting process.",
-    img: "https://avatar.vercel.sh/olivia",
+    img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 
@@ -66,7 +66,9 @@ const ReviewCard = ({
       )}
     >
       <div className="flex flex-row items-center gap-2">
-        <img className="rounded-full" width="32" height="32" alt="" src={img} />
+        <div className="w-8 h-8 overflow-hidden object-cover rounded-full">
+          <img className="" width="32" height="32" alt="" src={img} />
+        </div>
         <div className="flex flex-col">
           <figcaption className="font-medium text-sm dark:text-white">
             {name}

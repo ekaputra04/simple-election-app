@@ -10,16 +10,16 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex md:flex-row flex-col items-center mt-4 md:mt-0">
-            <a href="/about" className="mx-2 text-sm hover:underline">
+            <a href="/" className="mx-2 text-sm hover:underline">
               About Us
             </a>
-            <a href="/privacy" className="mx-2 text-sm hover:underline">
+            <a href="/" className="mx-2 text-sm hover:underline">
               Privacy Policy
             </a>
-            <a href="/terms" className="mx-2 text-sm hover:underline">
+            <a href="/" className="mx-2 text-sm hover:underline">
               Terms of Service
             </a>
-            <a href="/contact" className="mx-2 text-sm hover:underline">
+            <a href="/" className="mx-2 text-sm hover:underline">
               Contact Us
             </a>
           </div>
