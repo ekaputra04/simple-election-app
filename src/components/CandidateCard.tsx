@@ -68,7 +68,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
           } else if (userData.selectedCandidate !== null) {
             setHasVoted(userData.selectedCandidate !== null);
           } else {
-            setHasVoted(true);
+            setHasVoted(userData.selectedCandidate !== null);
           }
         }
       }
