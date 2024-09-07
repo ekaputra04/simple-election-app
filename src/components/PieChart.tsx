@@ -58,7 +58,7 @@ export function VotingStatusPieChart({
   ];
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col bg-transparent">
       <CardHeader className="items-center pb-0">
         <CardTitle>Voting Status</CardTitle>
         <CardDescription>User Voting Status</CardDescription>
@@ -92,7 +92,7 @@ export function CandidateVotesPieChart({
   }));
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col bg-transparent">
       <CardHeader className="items-center pb-0">
         <CardTitle>Candidate Votes</CardTitle>
         <CardDescription>Votes Distribution by Candidate</CardDescription>

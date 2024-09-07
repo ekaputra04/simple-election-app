@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next";
@@ -16,6 +17,7 @@ export default function VoteLayout({
     <>
       <Navbar />
       <main className="">{children}</main>
+      <Footer />
       <Toaster position="top-center" />
     </>
   );

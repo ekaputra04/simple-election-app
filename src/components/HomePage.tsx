@@ -42,8 +42,6 @@ export default function HomePage() {
   return (
     <>
       <main className="mx-auto px-8 container md:px-32 lg:px-48 relative">
-        {/* Hero Section */}
-
         <section className="rounded-lg md:grid md:grid-cols-2 h-[100vh] flex flex-col pt-24">
           <div className="flex items-center">
             <div>
@@ -60,7 +58,7 @@ export default function HomePage() {
               </button>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end items-center">
             <div className="">
               <Image
                 src="/images/voting.png"
@@ -76,15 +74,15 @@ export default function HomePage() {
           <TextRevealByWord text="Welcome to our Election App, where the power of choice is in your hands. This platform allows you to participate in a transparent and secure voting process, ensuring that every vote counts and every voice is heard." />
         </section>
 
-        <section className="lg:mt-32">
+        <section className="lg:mt-32 pt-12">
           <TypingAnimation
-            className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start pt-16"
+            className="py-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start pt-16"
             text="Candidates"
           />
           <CandidatesList votingOption={false} />
         </section>
 
-        <section className="lg:mt-32">
+        <section className="pt-12">
           <TypingAnimation
             className="mb-4 font-bold text-3xl bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent flex justify-start pt-16"
             text="Election Statistics"
@@ -106,7 +104,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="lg:mt-32 pb-32">
+        <section className="pt-24">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>How do I register to vote?</AccordionTrigger>
@@ -159,8 +157,6 @@ export default function HomePage() {
         <section>
           <MarqueeDemo />
         </section>
-
-        <section></section>
       </main>
     </>
   );

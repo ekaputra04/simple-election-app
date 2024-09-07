@@ -30,7 +30,7 @@ const CandidatesList: React.FC<CandidateListProps> = ({
   }
 
   return (
-    <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+    <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
       {candidates.map((candidate) => (
         <CandidateCard
           id={candidate.id}

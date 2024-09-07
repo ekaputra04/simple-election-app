@@ -19,11 +19,13 @@ export default function DashboardLayout({
 
   return (
     <>
-      <DotPattern
-        className={cn(
-          "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
-        )}
-      />
+      <div className="left-0 -z-30 fixed flex flex-col justify-center items-center w-full h-[100vh] overflow-hidden">
+        <DotPattern
+          className={cn(
+            "[mask-image:radial-gradient(1000px_circle_at_center,white,transparent)] opacity-50"
+          )}
+        />
+      </div>
       <div className="grid md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] w-full min-h-screen">
         <div className="md:block hidden bg-muted/40 border-r">
           <div className="flex flex-col gap-2 h-full max-h-screen">
@@ -89,14 +91,20 @@ export default function DashboardLayout({
               <SheetContent side="left" className="flex flex-col">
                 <nav className="gap-2 grid font-medium text-lg">
                   <Link
-                    href="#"
+                    href="/"
                     className="flex items-center gap-2 pb-4 font-semibold text-lg"
                   >
-                    <span className="sr-only">Election App</span>
+                    <span className="bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500 text-transparent">
+                      Election App
+                    </span>
                   </Link>
                   <Link
                     href="/dashboard"
-                    className="flex items-center gap-4 bg-muted mx-[-0.65rem] px-3 py-2 rounded-xl text-foreground hover:text-foreground"
+                    className={`flex items-center gap-4 mx-[-0.65rem] px-3 py-2 rounded-xl ${
+                      pathname === "/dashboard"
+                        ? "text-foreground bg-muted"
+                        : "text-muted-foreground"
+                    } hover:text-foreground`}
                   >
                     <Home className="w-5 h-5" />
                     Dashboard
@@ -104,17 +112,25 @@ export default function DashboardLayout({
 
                   <Link
                     href="/dashboard/candidates"
-                    className="flex items-center gap-4 mx-[-0.65rem] px-3 py-2 rounded-xl text-muted-foreground hover:text-foreground"
+                    className={`flex items-center gap-4 mx-[-0.65rem] px-3 py-2 rounded-xl ${
+                      pathname.startsWith("/dashboard/candidates")
+                        ? "text-foreground bg-muted"
+                        : "text-muted-foreground"
+                    } hover:text-foreground`}
                   >
                     <Users className="w-5 h-5" />
                     Candidates
                   </Link>
                   <Link
-                    href="/dashboard/analytics"
-                    className="flex items-center gap-4 mx-[-0.65rem] px-3 py-2 rounded-xl text-muted-foreground hover:text-foreground"
+                    href="/dashboard/users"
+                    className={`flex items-center gap-4 mx-[-0.65rem] px-3 py-2 rounded-xl ${
+                      pathname.startsWith("/dashboard/users")
+                        ? "text-foreground bg-muted"
+                        : "text-muted-foreground"
+                    } hover:text-foreground`}
                   >
-                    <LineChart className="w-5 h-5" />
-                    Analytics
+                    <User className="w-5 h-5" />
+                    Users
                   </Link>
                 </nav>
               </SheetContent>

@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <>
-      <footer className="lg:px-48 py-8">
+      <footer className="md:px-24 lg:px-48 py-8">
         <div className="flex md:flex-row flex-col justify-between items-center mx-auto container">
           <div className="text-center md:text-left">
             <h5 className="mb-2 font-semibold text-lg">Election App</h5>
