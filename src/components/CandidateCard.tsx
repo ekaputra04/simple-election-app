@@ -2,7 +2,6 @@
 import Image from "next/image";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -24,7 +23,7 @@ import { getAuth } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { toast } from "sonner";
-import { SeparatorHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface CandidateCardProps {
   id: string;
@@ -43,11 +42,12 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
   photoUrl,
   votingOption = false,
   vision,
-  mission,
+  mission = "",
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
   const auth = getAuth();
+  const router = useRouter();
 
   const validphotoUrl =
     photoUrl && photoUrl.trim() !== "" ? photoUrl : "@/images/candidate.png";
@@ -63,7 +63,13 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
 
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setHasVoted(userData.selectedCandidate !== null);
+          if (userData.selectedCandidate === "") {
+            setHasVoted(false);
+          } else if (userData.selectedCandidate !== null) {
+            setHasVoted(userData.selectedCandidate !== null);
+          } else {
+            setHasVoted(true);
+          }
         }
       }
     };
@@ -88,6 +94,7 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
       });
       setHasVoted(true);
       toast.success(`You have voted for ${name}`);
+      router.push("/vote");
     } catch (error) {
       toast.error("Failed to cast vote. Please try again.");
       console.error("Error updating selectedCandidate:", error);
@@ -95,6 +102,11 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
       setIsLoading(false);
     }
   };
+
+  const missionList = mission
+    .split("*")
+    .filter((m) => m.trim() !== "")
+    .map((m) => m.trim());
 
   return (
     <>
@@ -119,8 +131,11 @@ const CandidateCard: React.FC<CandidateCardProps> = ({
             </CardDescription>
             <CardDescription className="pb-4 text-gray-600 text-sm dark:text-white/70">
               <div className="py-2 font-bold text-base">Mission :</div>
-
-              {mission}
+              <ul>
+                {missionList.map((misi, index) => (
+                  <li key={index}>- {misi}</li>
+                ))}
+              </ul>
             </CardDescription>
             {votingOption && (
               <>
